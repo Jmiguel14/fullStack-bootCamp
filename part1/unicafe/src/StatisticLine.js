@@ -1,3 +1,8 @@
-import React from 'react'
+import React from "react";
 
-export const StatisticLine = (props) => <p>{props.text} {typeof props.value === 'function' ? props.value() : props.value}</p>
+export const StatisticLine = (props) => (
+  <>
+    <td>{props.text}</td>
+    <td> {typeof props.value === "function" ? props.value() : props.value}</td>
+  </>
+);
