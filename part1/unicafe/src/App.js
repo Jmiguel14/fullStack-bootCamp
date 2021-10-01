@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "./Button";
+import { Statistics } from "./Statistics";
 
 const App = () => {
   // save clicks of each button to its own state
@@ -18,18 +19,6 @@ const App = () => {
     HANDLE_CLICKS[id]();
   };
 
-  const getTotalFeedBack = () => {
-    return good + bad + neutral;
-  };
-
-  const getAverage = () => {
-    return (good - bad) / (good + bad + neutral);
-  };
-
-  const getPositive = () => {
-    return (good * 100) / (good + bad + neutral);
-  };
-
   return (
     <div>
       <h1>Give feeback</h1>
@@ -46,13 +35,7 @@ const App = () => {
       <p>good: {good}</p>
       <p>neutral: {neutral}</p>
       <p>bad: {bad}</p>
-      {good || bad || neutral ? (
-        <>
-          <p>all: {getTotalFeedBack()}</p>
-          <p>average: {getAverage()}</p>
-          <p>positive: {getPositive()}</p>
-        </>
-      ) : ''}
+      <Statistics good={good} bad={bad} neutral={neutral}/>
     </div>
   );
 };
