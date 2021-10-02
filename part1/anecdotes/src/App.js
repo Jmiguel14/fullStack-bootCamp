@@ -18,18 +18,31 @@ function App() {
     const randomNumber = Math.floor(Math.random() * anecdotes.length)
     setSelected(randomNumber)
   }
-  
+
   const addVote = () => {
     const newVotes = [...votes]
     newVotes[selected] += 1
     setVotes(newVotes)
   }
 
+  const theMostVotes = Math.max(...votes)
+
+  const theMostVotesIndex = votes.findIndex(element=>element===theMostVotes)
+
   return (
     <>
-      <h1>{anecdotes[selected]} Has {votes[selected]} votes.</h1>
+      <h1>Anecdote of the day</h1>
+      <p>{anecdotes[selected]} Has {votes[selected]} votes.</p>
       <button onClick={addVote}>vote</button>
       <button onClick={changeAnecdote}>Next anecdote</button>
+      {
+        theMostVotes !== 0 ? (
+          <>
+            <h2>Anecdote with most votes</h2>
+            <p>{anecdotes[theMostVotesIndex]}</p>
+          </>
+        ) : ''
+      }
     </>
   )
 }
