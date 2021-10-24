@@ -11,17 +11,22 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filteredPersons, setFilteredPersons] = useState(persons);
   const [wordToFilter, setWordToFilter] = useState("");
-  console.log('render')
   console.log(persons, filteredPersons)
+  console.log('render')
   useEffect(() => {
     axios
       .get('http://localhost:3001/persons')
       .then(response => {
-        console.log(response.data)
         setPersons(response.data)
-        setFilteredPersons(response.data)
       })
   }, [])
+
+  useEffect(() => {
+    const newFilteredPersons = persons.filter((person) => {
+      return person.name.toLowerCase().includes(wordToFilter.toLowerCase());
+    });
+    setFilteredPersons(newFilteredPersons);
+  }, [persons, wordToFilter])
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -29,14 +34,12 @@ const App = () => {
     if (existsName) {
       alert(`${newName} already exists in the phonebook`);
     } else {
-      setFilteredPersons((prevState) => [
-        ...prevState,
-        { name: newName, number: newNumber },
-      ]);
-      setPersons((prevState) => [
-        ...prevState,
-        { name: newName, number: newNumber },
-      ]);
+      const data = { name: newName, number: newNumber }
+      axios
+        .post('http://localhost:3001/persons', data)
+        .then(response => {
+          setPersons(persons.concat(response.data))
+        })
     }
     setNewName("");
     setNewNumber("");
@@ -53,12 +56,6 @@ const App = () => {
   const handleFilterChange = (e) => {
     const newWordToFilter = e.target.value;
     setWordToFilter(newWordToFilter);
-    const newFilteredPersons = persons.filter((person) => {
-      const nameToLowerCase = person.name.toLowerCase();
-      const valueToLowerCase = newWordToFilter.toLowerCase();
-      return nameToLowerCase.includes(valueToLowerCase);
-    });
-    setFilteredPersons(newFilteredPersons);
   };
 
   return (
