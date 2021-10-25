@@ -3,6 +3,7 @@ import { Filter } from "./Filter";
 import { PersonForm } from "./PersonForm";
 import { Persons } from "./Persons";
 import personService from "../services/person";
+import { Notification } from "./Notification";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -10,6 +11,8 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filteredPersons, setFilteredPersons] = useState(persons);
   const [wordToFilter, setWordToFilter] = useState("");
+  const [messageNotification, setMessageNotification] = useState(null)
+  const [colorNotification, setColorNotification] = useState('green')
 
   useEffect(() => {
     personService.getAll().then((initialPersons) => setPersons(initialPersons));
@@ -36,13 +39,27 @@ const App = () => {
           .then(returnedPerson => {
             const newPersons = persons.map(p=>p.id !== person.id ? p : returnedPerson)
             setPersons(newPersons)
+            setMessageNotification(`${person.name} was added to the phonebook`)
+            setColorNotification('green')
+            setTimeout(() => setMessageNotification(null), 5000)
+          })
+          .catch(error => {
+            setColorNotification('red')
+            setMessageNotification(
+              `Person ${person.name} was already deleted from server`
+            )
+            setTimeout(() => setMessageNotification(null), 5000)
           })
       }
     } else {
       const data = { name: newName, number: newNumber };
       personService
         .create(data)
-        .then((returnedPerson) => setPersons(persons.concat(returnedPerson)));
+        .then((returnedPerson) => {
+          setPersons(persons.concat(returnedPerson));
+          setMessageNotification(`${newName} was added to the phonebook`)
+          setTimeout(() => setMessageNotification(null), 5000)
+        })
     }
     setNewName("");
     setNewNumber("");
@@ -70,14 +87,26 @@ const App = () => {
         if (response.status === 200) {
           const newPersons = persons.filter((el) => el.id !== id);
           setPersons(newPersons);
+          setColorNotification('#a7a407dc')
+          setMessageNotification(
+            `Person ${person.name} was removed`
+          )
+          setTimeout(() => setMessageNotification(null), 5000)
         }
-      });
+      }).catch(error => {
+        setColorNotification('red')
+        setMessageNotification(
+          `Person ${person.name} was already deleted from server`
+        )
+        setTimeout(() => setMessageNotification(null), 5000)
+      })
     }
   };
 
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={messageNotification} color={colorNotification}/>
       <Filter onHandleFilterChange={handleFilterChange} word={wordToFilter} />
       <PersonForm
         onHandleSubmit={handleSubmit}
