@@ -53,6 +53,22 @@ const App = () => {
     setWordToFilter(newWordToFilter);
   };
 
+  const handleDelete = (id) => {
+    const person = persons.find(el=>el.id===id)
+    const message=`Delete ${person.name}`
+    const remove = window.confirm(message)
+    if(remove){
+      personService
+        .remove(id)
+        .then(response=>{
+          if(response.status === 200){
+            const newPersons = persons.filter(el=>el.id!==id) 
+            setPersons(newPersons)
+          }
+        })
+    }
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -65,7 +81,7 @@ const App = () => {
         newNumber={newNumber}
       />
       <h2>Numbers</h2>
-      <Persons filteredPersons={filteredPersons}/>
+      <Persons filteredPersons={filteredPersons} onHandleDelete={handleDelete}/>
     </div>
   );
 };
