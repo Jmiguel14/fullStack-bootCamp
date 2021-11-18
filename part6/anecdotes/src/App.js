@@ -6,7 +6,14 @@ const App = () => {
   const dispatch = useDispatch()
 
   const vote = (id) => {
-    dispatch({type: 'VOTE', payload: {id}})
+    dispatch({type: 'VOTE', payload: { id }})
+  }
+
+  const addAnecdote = (e) => {
+    e.preventDefault()
+    const content = e.target.anecdote.value
+    e.target.anecdote.value = ''
+    dispatch({type: 'NEW_ANECDOTE', payload: { content }})
   }
 
   return (
@@ -24,8 +31,8 @@ const App = () => {
         </div>
       )}
       <h2>create new</h2>
-      <form>
-        <div><input /></div>
+      <form onSubmit={addAnecdote}>
+        <div><input name='anecdote'/></div>
         <button>create</button>
       </form>
     </div>
