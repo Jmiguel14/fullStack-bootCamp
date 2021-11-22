@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { registerVote } from "../reducers/anecdoteReducer";
 
 export const AnecdotesList = () => {
+    console.log('render anecdoteList')
   const anecdotes = useSelector((state) => state);
   const dispatch = useDispatch();
 

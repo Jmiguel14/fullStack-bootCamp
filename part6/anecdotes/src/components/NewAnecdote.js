@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { createAnecdote } from "../reducers/anecdoteReducer";
 
 export const NewAnecdote = () => {
+    console.log('render newAnecdote')
   const dispatch = useDispatch();
   const addAnecdote = (e) => {
     e.preventDefault();
