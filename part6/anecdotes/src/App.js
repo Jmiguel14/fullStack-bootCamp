@@ -1,4 +1,3 @@
-import { getAllByAltText } from '@testing-library/dom'
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { AnecdotesList } from './components/AnecdotesList'
