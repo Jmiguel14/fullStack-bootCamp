@@ -11,7 +11,7 @@ const reducer = (state = [], action) => {
       }
       return state.map(anecdote => anecdote.id === id ? changeAnecdote : anecdote)
     case 'NEW_ANECDOTE':
-      const newAnecdote = action.payload.anecdote
+      const newAnecdote = action.payload
       return [
         ...state,
         newAnecdote
@@ -27,8 +27,11 @@ export const registerVote = (id) => {
   return {type: 'VOTE', payload: { id }}
 }
 
-export const createAnecdote = (anecdote) => {
-  return {type: 'NEW_ANECDOTE', payload: { anecdote }}
+export const createAnecdote = (content) => {
+  return async dispatch => {
+    const newAnecdote = await anecdoteService.createNewAnecdote(content)
+    dispatch({type: 'NEW_ANECDOTE', payload: newAnecdote})
+  }
 }
 
 export const initializeAnecdotes = () => {

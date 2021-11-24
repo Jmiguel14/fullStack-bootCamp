@@ -7,7 +7,7 @@ export const AnecdotesList = () => {
   console.log('render anecdoteList')
   const anecdotes = useSelector((state) => state.anecdotes);
   const dispatch = useDispatch();
-
+    console.log(anecdotes)
   const filter = useSelector(state => state.filter)
 
   const vote = (id) => {
