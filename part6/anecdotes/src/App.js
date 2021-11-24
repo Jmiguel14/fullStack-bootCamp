@@ -5,15 +5,13 @@ import Filter from './components/Filter'
 import {NewAnecdote} from './components/NewAnecdote'
 import Notification from './components/Notification'
 import { initializeAnecdotes } from './reducers/anecdoteReducer'
-import anecdoteService from './services/anecdoteService'
 
 const App = () => {
   console.log('render app')
   const dispatch = useDispatch()
 
   useEffect(() => {
-    anecdoteService
-      .getAll().then(data => dispatch(initializeAnecdotes(data)))
+    dispatch(initializeAnecdotes())
   }, [dispatch])
   
   return (
