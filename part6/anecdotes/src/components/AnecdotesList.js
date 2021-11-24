@@ -11,9 +11,9 @@ export const AnecdotesList = () => {
   const filter = useSelector(state => state.filter)
 
   const vote = (id) => {
-    dispatch(registerVote(id));
-    const anecdote = anecdotes.filter((el) => el.id === id)
-    const message =  `You voted '${anecdote[0].content}'`
+    const anecdote = anecdotes.find((el) => el.id === id)
+    dispatch(registerVote(anecdote));
+    const message =  `You voted '${anecdote.content}'`
     dispatch(createNotification(message))
   };
 
