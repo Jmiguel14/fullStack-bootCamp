@@ -1,6 +1,7 @@
 import anecdoteService from "../services/anecdoteService"
 
 const reducer = (state = [], action) => {
+  console.log('ssh working!!')
   switch(action.type){
     case 'VOTE':
       const changeAnecdote = action.payload
